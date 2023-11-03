@@ -8,7 +8,7 @@
         stages {
             stage('Git Clone') { 
                 steps {
-                    git branch: 'react-app', url: 'https://github.com/Mirfani340/a428-cicd-labs'
+                    git branch: 'react-app', url: 'https://github.com/sugiannoor/a428-cicd-labs'
                 }
             }
             stage('Build') { 
