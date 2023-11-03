@@ -1,25 +1,21 @@
-    pipeline {
-        agent {
-            docker {
-                image 'node:16-alpine' 
-                args '-p 3000:3000' 
+node {
+    def customImage = docker.image('node:16-alpine')
+    
+    try {
+        customImage.run("-p 3000:3000") {
+            stage('Git Clone') {
+                checkout([$class: 'GitSCM', branches: [[name: 'react-app']], userRemoteConfigs: [[url: 'https://github.com/sugiannoor/a428-cicd-labs']]])
             }
-        }
-        stages {
-            stage('Git Clone') { 
-                steps {
-                    git branch: 'react-app', url: 'https://github.com/sugiannoor/a428-cicd-labs'
-                }
+            
+            stage('Build') {
+                sh 'npm install'
             }
-            stage('Build') { 
-                steps {
-                    sh 'npm install' 
-                }
-            }
+            
             stage('Test') {
-                steps {
-                    sh './jenkins/scripts/test.sh'
-                }
+                sh './jenkins/scripts/test.sh'
+            }
         }
-        }
+    } finally {
+        customImage.stop()
     }
+}
