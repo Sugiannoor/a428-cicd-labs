@@ -20,7 +20,7 @@
                 steps {
                     sh './jenkins/scripts/test.sh'
                 }
-        }
+         }
          stage('Manual Approval') {
             steps {
                 script {
@@ -45,5 +45,6 @@
                 sh './jenkins/scripts/kill.sh'
             }
         }
+         
         }
     }
